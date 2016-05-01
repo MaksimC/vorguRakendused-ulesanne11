@@ -119,7 +119,7 @@ $connection->close();
     ?>
 </p>
 
-<p>suurendada kõiki tabelis olevaid vanuseid 1 aasta võrra</p><br>
+<p><b>Kõik loomad just said 1 aasta vanemaks!<b></p><br>
 
 <?php
 $host = "localhost";
