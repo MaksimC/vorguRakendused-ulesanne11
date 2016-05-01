@@ -1,143 +1,36 @@
+
 /**
  * Created by PhpStorm.
  * User: emaktse
- * Date: 01.05.2016
- * Time: 19:13
+ * Date: 02.05.2016
+ * Time: 20:40
  */
 
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8" />
-	<title>Ulesanne 11</title>
-</head>
-<body>
-<div><b>Content: </b><br>
+1. Luua uus tabel 'loomaaed', kus on järgnevad väljad:
 
-<?php
-$host = "localhost";
-$username = "test";
-$password = "t3st3r123";
-$database = "test";
+CREATE TABLE loomaaed_mtseljab(id INTEGER PRIMARY KEY AUTO_INCREMENT , nimi TEXT , vanus TEXT , liik TEXT , puur INTEGER)
+
+2. Täita eelnevalt loodud tabel vähemalt 5 reaga. Sisestamisel valida andmed nii, et mõned loomad jagavad samat puuri ja mõnest liigist on mitu looma.
+
+INSERT INTO loomaaed_mtseljab  VALUES (NULL,'loom1', 3, 'koer',1)
+INSERT INTO loomaaed_mtseljab(nimi, liik,puur, vanus) VALUES('loom2','kass',7,4)
+INSERT INTO loomaaed_mtseljab(nimi, liik,puur, vanus) VALUES('loom3','lind',2,2)
+INSERT INTO loomaaed_mtseljab(nimi, liik,puur, vanus) VALUES('loom4','lihtsaltloom',4,4)
+INSERT INTO loomaaed_mtseljab(nimi, liik,puur, vanus) VALUES('loom5','teineloom',9,6)
 
 
-$connection = new mysqli($host, $username, $password, $database);
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-$sql = "SELECT * FROM loomaaed_mtseljab";
-$result = $connection->query($sql);
-if ($result->num_rows > 0) {
-    //  output data of each row
-    echo "<table><tr><td>id </td><td>nimi </td><td>vanus </td><td>liik </td><td>puur </td></tr>";
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nimi'] . "</td><td>" . $row['vanus'] . "</td><td>" . $row['liik'] . "</td><td>" . $row['puur'] . "</td></tr>";      }
-    echo "</table>";
-} else {
-    echo "no results";
-}
-$connection->close();
-?>
-</div>
+3. Hankida kõigi mingis ühes kindlas puuris elavate loomade nimi ja puuri number:
 
-<p><b>Hankida kõigi mingis ühes kindlas puuris elavate loomade nimi ja puuri number.</b><br>
+SELECT nimi, puur FROM `loomaaed_mtseljab` WHERE puur=4
 
-    <?php
-    $host = "localhost";
-    $username = "test";
-    $password = "t3st3r123";
-    $database = "test";
-    $connection = new mysqli($host, $username, $password, $database);
+4. Hankida vanima ja noorima looma vanused:
 
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
+SELECT MIN(vanus) as noorim, MAX(vanus) as vanim FROM `loomaaed_mtseljab`
 
-    $sql = "SELECT `nimi`, `puur` FROM loomaaed_mtseljab WHERE puur='4'";
-    $result = $connection->query($sql);
-    if ($result->num_rows > 0) {
+5. Hankida puuri number koos selles elavate loomade arvuga (vihjeks: group by ja count ):
 
-        while($row = $result->fetch_assoc()) {
-            echo "<br> nimi: ". $row["nimi"]. " - puur: ". $row["puur"]. "<br>";
-        }
-    } else {
-        echo "no results";
-    }
-    $connection->close();
-    ?>
-</p>
+SELECT count(*), puur FROM `loomaaed_mtseljab` GROUP BY puur
 
-<p><b>Hankida vanima ja noorima looma vanused.</b><br>
+6. Suurendada kõiki tabelis olevaid vanuseid 1 aasta võrra:
 
-    <?php
-    $host = "localhost";
-    $username = "test";
-    $password = "t3st3r123";
-    $database = "test";
-    $connection = new mysqli($host, $username, $password, $database);
-
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-    $sql = "SELECT MAX(vanus), MIN(vanus) FROM loomaaed_mtseljab";
-    $result = $connection->query($sql);
-    if ($result->num_rows > 0) {
-
-        while($row = $result->fetch_assoc()) {
-            echo "<br> Kõige noorem on ".$row["MIN(vanus)"]." ja kõige vanem: ". $row["MAX(vanus)"]."<br>";
-        }
-    } else {
-        echo "no results";
-    }
-    $connection->close();
-    ?>
-</p>
-<p><b>hankida puuri number koos selles elavate loomade arvuga.</b><br>
-
-    <?php
-    $host = "localhost";
-    $username = "test";
-    $password = "t3st3r123";
-    $database = "test";
-
-    $connection = new mysqli($host, $username, $password, $database);
-
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-    $sql = "SELECT puur, COUNT(*) FROM loomaaed_mtseljab GROUP BY puur";
-    $result = $connection->query($sql);
-    if ($result->num_rows > 0) {
-
-        while($row = $result->fetch_assoc()) {
-            echo "<br>Puuris nr ".$row["puur"]." elab " .$row["COUNT(*)"]." looma.<br>";
-        }
-    } else {
-        echo "no results";
-    }
-    $connection->close();
-    ?>
-</p>
-
-<p><b>Kõik loomad just said 1 aasta vanemaks!<b></p><br>
-
-<?php
-$host = "localhost";
-$username = "test";
-$password = "t3st3r123";
-$database = "test";
-$connection = new mysqli($host, $username, $password, $database);
-
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
-$update = "UPDATE loomaaed_mtseljab SET vanus=vanus+1";
-$result = $connection->query($update);
-$connection->close();
-?>
-
-
-
-</body>
-</html>
+UPDATE loomaaed_mtseljab SET vanus=vanus+1
