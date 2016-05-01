@@ -99,16 +99,16 @@ $connection->close();
     $username = "test";
     $password = "t3st3r123";
     $database = "test";
-    // Create connection
+
     $connection = new mysqli($host, $username, $password, $database);
-    // Check connection
+
     if ($connection->connect_error) {
         die("Connection failed: " . $connection->connect_error);
     }
     $sql = "SELECT puur, COUNT(*) FROM loomaaed_mtseljab GROUP BY puur";
     $result = $connection->query($sql);
     if ($result->num_rows > 0) {
-        //  output data of each row
+
         while($row = $result->fetch_assoc()) {
             echo "<br>Puuris nr ".$row["puur"]." elab " .$row["COUNT(*)"]." loom(a).<br>";
         }
@@ -122,21 +122,21 @@ $connection->close();
 <p>suurendada kõiki tabelis olevaid vanuseid 1 aasta võrra</p><br>
 
 <?php
-    $host = "localhost";
-    $username = "test";
-    $password = "t3st3r123";
-    $database = "test";
-    $connection = new mysqli($host, $username, $password, $database);
+$host = "localhost";
+$username = "test";
+$password = "t3st3r123";
+$database = "test";
+$connection = new mysqli($host, $username, $password, $database);
 
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-
-    $update = "UPDATE loomaaed_mtseljab SET vanus=vanus+1";
-    $result2 = $connection->query($update);
-    $connection->close();
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
 }
+
+$update = "UPDATE loomaaed_mtseljab SET vanus=vanus+1";
+$result = $connection->query($update);
+$connection->close();
 ?>
+
 
 
 </body>
