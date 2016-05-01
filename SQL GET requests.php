@@ -127,11 +127,13 @@ $connection->close();
     $password = "t3st3r123";
     $database = "test";
     $connection = new mysqli($host, $username, $password, $database);
+
     if ($connection->connect_error) {
         die("Connection failed: " . $connection->connect_error);
     }
-    $updt = "UPDATE loomaaed_agrigorj SET vanus=vanus+1";
-    $result2 = $connection->query($updt);
+
+    $update = "UPDATE loomaaed_mtseljab SET vanus=vanus+1";
+    $result2 = $connection->query($update);
     $connection->close();
 }
 ?>
