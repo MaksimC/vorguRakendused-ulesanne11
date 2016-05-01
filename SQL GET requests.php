@@ -84,7 +84,7 @@ $connection->close();
     if ($result->num_rows > 0) {
 
         while($row = $result->fetch_assoc()) {
-            echo "<br> noorim: ".$row["MIN(vanus)"]."-aastane ja vanim: ". $row["MAX(vanus)"]."-aastane.<br>";
+            echo "<br> Kõige noorem on ".$row["MIN(vanus)"]." ja kõige vanem: ". $row["MAX(vanus)"]."<br>";
         }
     } else {
         echo "no results";
@@ -110,7 +110,7 @@ $connection->close();
     if ($result->num_rows > 0) {
 
         while($row = $result->fetch_assoc()) {
-            echo "<br>Puuris nr ".$row["puur"]." elab " .$row["COUNT(*)"]." loom(a).<br>";
+            echo "<br>Puuris nr ".$row["puur"]." elab " .$row["COUNT(*)"]." looma.<br>";
         }
     } else {
         echo "no results";
